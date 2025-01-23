@@ -6,15 +6,15 @@ import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';
 
 @Module({
-  imports: [
-    PassportModule,
-    JwtModule.register({
-      secret: 'your-secret-key',
-      signOptions: { expiresIn: '1h' },
-    }),
-  ],
-  controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
-  exports: [AuthService]
+    imports: [
+        PassportModule,
+        JwtModule.register({
+            secret: 'your-secret-key',
+            signOptions: { expiresIn: '1h' },
+        }),
+    ],
+    controllers: [AuthController],
+    providers: [AuthService, JwtStrategy],
+    exports: [AuthService]
 })
 export class AuthModule { }

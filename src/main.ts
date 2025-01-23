@@ -9,9 +9,6 @@ import { AccountController } from './controllers/account.controller';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
-  // Add this to see all registered routes 
-  const server = app.getHttpServer(); 
-  const router = server._events.request._router; 
   
   // Global validation pipe
   app.useGlobalPipes(new ValidationPipe({
@@ -31,7 +28,6 @@ async function bootstrap() {
     .setTitle('Accounts API')
     .setDescription('API documentation for the Account Service')
     .setVersion('1.0')
-    .addTag('Accounts')
     .addBearerAuth(
       {
         type: 'http',
@@ -46,7 +42,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  const accountController = app.get(AccountController);
+  // console.log('Available routes:', app.getHttpServer()._events.request._router.stack .filter(layer => layer.route) .map(layer => ({ path: layer.route?.path, method: layer.route?.stack[0].method })));
   await app.listen(3000);
 }
 bootstrap();

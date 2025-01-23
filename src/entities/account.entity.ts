@@ -10,5 +10,8 @@ export class Account {
 
     @Column()
     name: string;
+
+    @Column({ default: "newfieldtest" })
+    newfieldformigration: string;
 }
 

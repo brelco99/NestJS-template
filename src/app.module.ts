@@ -1,3 +1,4 @@
+
 import { AccountController } from './controllers/account.controller';
 import { AccountService } from './services/account.service';
 import { Module } from '@nestjs/common';
@@ -7,25 +8,31 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './auth/roles.guard';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
-
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AppController } from 'src/app.controller';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: 'db',
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'nestjs_template',
-      entities: [Account],
-      synchronize: true,
+      database: 'your_db_name',
+      autoLoadEntities: true,
+      synchronize: false,
+      ssl: false,
     }),
     TypeOrmModule.forFeature([Account]),
     AuthModule
   ],
-  controllers: [AccountController],
-  providers: [AccountService,
+  controllers: [AppController, AccountController],
+  providers: [
+    AccountService,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
